@@ -54,32 +54,50 @@ if [[ "$(basename $term)" == "zsh" ]]; then
     alias systemctl='noglob systemctl'
     alias find='noglob find'
     alias locate='noglob locate'
+
+    # Systemd
+    user_commands=(
+      list-units is-active status show help list-unit-files
+      is-enabled list-jobs show-environment cat)
+
+    sudo_commands=(
+      start stop reload restart try-restart isolate kill
+      reset-failed enable disable reenable preset mask unmask
+      link load cancel set-environment unset-environment
+      edit)
+
+    for c in $user_commands; do
+        alias sc-$c="systemctl $c";
+    done
+    for c in $sudo_commands; do
+        alias sc-$c="sudo systemctl $c";
+    done
+else
+    # Systemd
+    user_commands=(
+      list-units is-active status show help list-unit-files
+      is-enabled list-jobs show-environment cat)
+
+    sudo_commands=(
+      start stop reload restart try-restart isolate kill
+      reset-failed enable disable reenable preset mask unmask
+      link load cancel set-environment unset-environment
+      edit)
+
+    for c in ${user_commands[@]}; do
+        alias sc-$c="systemctl $c";
+    done
+    for c in ${sudo_commands[@]}; do
+        alias sc-$c="sudo systemctl $c";
+    done
 fi
-
-alias x='extract'
-alias colorize='colorize_via_pygmentize'
-
-# Systemd
-user_commands=(
-  list-units is-active status show help list-unit-files
-  is-enabled list-jobs show-environment cat)
-
-sudo_commands=(
-  start stop reload restart try-restart isolate kill
-  reset-failed enable disable reenable preset mask unmask
-  link load cancel set-environment unset-environment
-  edit)
-
-for c in $user_commands; do
-    alias sc-$c="systemctl $c";
-done
-for c in $sudo_commands; do
-    alias sc-$c="sudo systemctl $c";
-done
 
 alias sc-enable-now="sc-enable --now"
 alias sc-disable-now="sc-disable --now"
 alias sc-mask-now="sc-mask --now"
+
+alias x='extract'
+alias colorize='colorize_via_pygmentize'
 
 # Useful unarchiver!
 function extract () {
