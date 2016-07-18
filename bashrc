@@ -3,7 +3,7 @@
 # Description: comfortable Bash shell configuration
 #
 set +v
-RCDIR=~/.rc
+RCDIR=${HOME}/.config/shell
 export HISTSIZE=20000
 export HISTFILESIZE=50000
 export HISTCONTROL="ignoreboth:ignoredups:erasedups"
@@ -28,6 +28,7 @@ if [ -t 1 ]; then
 	# no need <Tab><Tab>
 	# bind 'set show-all-if-ambiguous on'
 fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
