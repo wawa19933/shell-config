@@ -1,5 +1,6 @@
 DEFAULT_USER=sergii
-export ZDOTDIR="$HOME/.config/shell"
+RCDIR="${HOME}/.config/shell"
+export ZDOTDIR="${RCDIR}"
 export ZPLUG_HOME="$ZDOTDIR/zplug"
 export TERM="xterm-256color"
 # export LESSOPEN='|~/.lessfilter %s'
