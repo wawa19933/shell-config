@@ -13,7 +13,7 @@
 # Zim - super fast, Prezto-based
 #	(just for link)
 zplug "Eriner/zim", use:"init.zsh", \
-    hook-build:"ln -rfs templates/zimrc $ZDOTDIR/.zimrc; source templates/zlogin"
+    hook-build:"ln -rfs templates/zimrc $ZDOTDIR/.zimrc; ln -rfs . ${ZDOTDIR}/.zim; source templates/zlogin"
 
 ##
 # Theme
