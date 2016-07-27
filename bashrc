@@ -3,7 +3,7 @@
 # Description: comfortable Bash shell configuration
 #
 set +v
-RCDIR=${HOME}/.config/shell
+RCDIR=/home/sergii/.config/shell
 export HISTSIZE=20000
 export HISTFILESIZE=50000
 export HISTCONTROL="ignoreboth:ignoredups:erasedups"
@@ -18,7 +18,8 @@ shopt -s autocd
 export PROMPT_COMMAND="history -a; history -n;"
 export TERM="xterm-256color"
 export CLICOLOR_FORCE
-export PS1="$(tput setaf 1)\w\n\[$(tput bold)\]\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h\[$(tput setaf 5)\]\[$(tput setaf 7)\]\\$\[$(tput sgr0)\] "
+source $RCDIR/prompt.bash
+#export PS1="$(tput setaf 1)\w\n\[$(tput bold)\]\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h\[$(tput setaf 5)\]\[$(tput setaf 7)\]\\$\[$(tput sgr0)\] "
 
 if [ -t 1 ]; then
 	# alternate mappings for "up" and "down" to search the history
