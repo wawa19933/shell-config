@@ -4,6 +4,9 @@
 #
 set +v
 RCDIR=${HOME}/.config/shell
+POWERLINE_DIR="${HOME}/.local/powerline/powerline"
+POWERLINE_BASH="${POWERLINE_DIR}/bindings/bash/powerline.sh"
+
 export HISTSIZE=20000
 export HISTFILESIZE=50000
 export HISTCONTROL="ignoreboth:ignoredups:erasedups"
@@ -18,7 +21,7 @@ shopt -s autocd
 export PROMPT_COMMAND="history -a; history -n;"
 export TERM="xterm-256color"
 export CLICOLOR_FORCE
-export PS1="$(tput setaf 1)\w\n\[$(tput bold)\]\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h\[$(tput setaf 5)\]\[$(tput setaf 7)\]\\$\[$(tput sgr0)\] "
+# export PS1="$(tput setaf 1)\w\n\[$(tput bold)\]\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h\[$(tput setaf 5)\]\[$(tput setaf 7)\]\\$\[$(tput sgr0)\] "
 
 if [ -t 1 ]; then
 	# alternate mappings for "up" and "down" to search the history
@@ -43,6 +46,14 @@ fi
 [ -f $RCDIR/aliases.sh ] && source $RCDIR/aliases.sh
 [ -f $RCDIR/dircolors.256dark ] && eval `dircolors $RCDIR/dircolors.256dark`
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Set prompt
+if [ -f "${POWERLINE_BASH}" ]; then 
+  powerline-daemon -q
+  POWERLINE_BASH_CONTINUATION=1
+  POWERLINE_BASH_SELECT=1
+  source "${POWERLINE_BASH}"
+fi
 
 # if [[ ! -d ~/.fzf ]]; then
 # 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf

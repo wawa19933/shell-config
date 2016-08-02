@@ -1,5 +1,7 @@
 DEFAULT_USER=sergii
-RCDIR="${HOME}/.config/shell"
+RCDIR=${HOME}/.config/shell
+POWERLINE_DIR="${HOME}/.local/powerline/powerline"
+POWERLINE_ZSH="${POWERLINE_DIR}/bindings/zsh/powerline.zsh"
 export ZDOTDIR="${RCDIR}"
 export ZPLUG_HOME="$ZDOTDIR/zplug"
 export TERM="xterm-256color"
@@ -13,6 +15,19 @@ export GENCOMPL_PY="python2"
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 
+# Fuzzy search fzf
+if [[ ! -d $HOME/.fzf ]]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+  $HOME/.fzf/install --all
+fi
+
+if [[ -f $HOME/.fzf.zsh ]]; then
+    source $HOME/.fzf.zsh
+else
+    [ -f $HOME/.fzf/shell/completion.zsh ] && source $HOME/.fzf/shell/completion.zsh
+    [ -f $HOME/.fzf/shell/key-bindings.zsh ] && source $HOME/.fzf/shell/key-bindings.zsh
+fi
+
 #
 # Zplug
 #
@@ -25,6 +40,7 @@ fi
 
 # Prompt
 [ -f $ZDOTDIR/promptline.zsh ] && source $ZDOTDIR/promptline.zsh
+# [ -f "${POWERLINE_ZSH}" ] && powerline-daemon -q ; source "${POWERLINE_ZSH}"
 
 # Aliases
 [ -f $ZDOTDIR/aliases.sh ] && source $ZDOTDIR/aliases.sh
@@ -88,18 +104,6 @@ unsetopt ALWAYS_TO_END
 # also applies to file expansion of an initial `~' or `='.
 unsetopt NOMATCH
 
-# Fuzzy search fzf
-if [[ ! -d $HOME/.fzf ]]; then
-  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
-  $HOME/.fzf/install --all
-fi
-
-if [[ -f $HOME/.fzf.zsh ]]; then
-    source $HOME/.fzf.zsh
-else
-    [ -f $HOME/.fzf/shell/completion.zsh ] && source $HOME/.fzf/shell/completion.zsh
-    [ -f $HOME/.fzf/shell/key-bindings.zsh ] && source $HOME/.fzf/shell/key-bindings.zsh
-fi
 
 # Powerlevel9k themes
 # by tacolizard
