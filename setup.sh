@@ -56,6 +56,6 @@ if [[ ! -d ~/.fzf ]]; then
   ln -rsf ~/.fzf/bin/fzf-tmux ~/.local/bin/ && ln -rsf ~/.fzf/bin/fzf ~/.local/bin/ 
 fi
 
-app_list=( most multitail pydf htop vim dstat )
+app_list=( most multitail pydf htop vim dstat inxi )
 [ -x "`which apt 2>&1`" ] && sudo apt install "${app_list[@]}" 
 [ -x "`which dnf 2>&1`" ] && sudo dnf install "${app_list[@]}"
