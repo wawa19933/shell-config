@@ -12,11 +12,28 @@ ln -frs $RC_DIR/zshrc ${HOME}/.zshrc
 ln -frs $RC_DIR/tmux.conf ${HOME}/.tmux.conf
 ln -frs $RC_DIR/vimrc ${HOME}/.vimrc
 
-git clone https://github.com/powerline/powerline.git ${POWERLINE_DIR}
-ln -rsf ${POWERLINE_DIR}/scripts/* ${HOME}/.local/bin/
+[ -d ${POWERLINE_DIR} ] || \
+  git clone https://github.com/powerline/powerline.git ${POWERLINE_DIR} && \
+  ln -rsf ${POWERLINE_DIR}/scripts/* ${HOME}/.local/bin/
 
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+[ -d ~/.local/powerline-shell ] || \
+  git clone https://github.com/milkbikis/powerline-shell ~/.local/powerline-shell ||\
+    cp  ~/.local/powerline-shell/config.py.dist ~/.local/powerline-shell/config.py &&\
+     ~/.local/powerline-shell/install.py 
 
-# curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-#     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+wget -O- https://bit.ly/glances | /bin/bash || \
+  curl -L https://bit.ly/glances | bash
+
+[ -d ~/.vim/autoload ] || makedir -p ~/.vim/autoload && \
+  wget -O ~/.vim/autoload/plug.vim \
+     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || \
+    curl -o ~/.vim/autoload/plug.vim \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+
+[ -d ~/.config/nvim/autoload ] || makedir -p ~/.config/nvim/autoload && \
+  wget -O ~/.config/nvim/autoload/plug.vim \
+     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || \
+    curl -o ~/.config/nvim/autoload/plug.vim \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
