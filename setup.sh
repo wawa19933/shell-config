@@ -19,9 +19,8 @@ ln -frs $RC_DIR/vimrc ${HOME}/.vimrc
 #   ln -rsf ${POWERLINE_DIR}/scripts/* ${HOME}/.local/bin/
 
 [ -d ~/.local/powerline-shell ] || \
-  git clone https://github.com/milkbikis/powerline-shell ~/.local/powerline-shell ||\
-    cp  ~/.local/powerline-shell/config.py.dist ~/.local/powerline-shell/config.py &&\
-     ~/.local/powerline-shell/install.py 
+  git clone https://github.com/milkbikis/powerline-shell ~/.local/powerline-shell &&\
+    cd ~/.local/powerline-shell; ~/.local/powerline-shell/install.py; cd - || cd 
 
 wget -O- https://bit.ly/glances | /bin/bash || \
   curl -L https://bit.ly/glances | bash
