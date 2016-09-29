@@ -21,7 +21,7 @@ mkdir -p ~/.local/bin; mv $RC_DIR/progress ~/.local/bin/
 #   git clone https://github.com/powerline/powerline.git ${POWERLINE_DIR} && \
 #   ln -rsf ${POWERLINE_DIR}/scripts/* ${HOME}/.local/bin/
 
-if [[ -d ~/.local/powerline-shell ]]; then
+if [[ ! -d ~/.local/powerline-shell ]]; then
   echo "Installing powerline-shell"
   git clone https://github.com/milkbikis/powerline-shell ~/.local/powerline-shell
   cd ~/.local/powerline-shell 
@@ -34,7 +34,7 @@ fi
 # wget -O- https://bit.ly/glances | /bin/bash || \
 #   curl -L https://bit.ly/glances | bash
 
-[ -f ~/.vim/autoload/plug.vim ] || makedir -p ~/.vim/autoload && \
+[ -f ~/.vim/autoload/plug.vim ] || mkdir -p ~/.vim/autoload && \
   echo "Installing vim.plug..." &&\  
   wget -O ~/.vim/autoload/plug.vim \
      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || \
@@ -42,7 +42,7 @@ fi
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 
-[ -f ~/.config/nvim/autoload/plug.vim ] || makedir -p ~/.config/nvim/autoload && \
+[ -f ~/.config/nvim/autoload/plug.vim ] || mkdir -p ~/.config/nvim/autoload && \
   echo "Installing nvim.plug" &&\  
   wget -O ~/.config/nvim/autoload/plug.vim \
      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || \
@@ -56,6 +56,6 @@ if [[ ! -d ~/.fzf ]]; then
   ln -rsf ~/.fzf/bin/fzf-tmux ~/.local/bin/ && ln -rsf ~/.fzf/bin/fzf ~/.local/bin/ 
 fi
 
-app_list=( most multitail pydf mtr htop vim dstat inxi )
+app_list=( most multitail pydf htop vim dstat )
 [ -x "`which apt 2>&1`" ] && sudo apt install "${app_list[@]}" 
 [ -x "`which dnf 2>&1`" ] && sudo dnf install "${app_list[@]}"
