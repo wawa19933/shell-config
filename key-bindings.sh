@@ -3,7 +3,7 @@ if [[ "$(basename $term)" == "bash" ]]; then
     # alternate mappings for "up" and "down" to search the history
     bind '"\e[A": history-search-backward'
     bind '"\e[B": history-search-forward'
-    bind 'set show-all-if-ambiguous on'
+    # bind 'set show-all-if-ambiguous on'
 fi
 
 if [[ "$(basename $term)" == "zsh" ]]; then

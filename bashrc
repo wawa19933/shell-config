@@ -14,7 +14,7 @@ POWERLINE_BASH="${POWERLINE_DIR}/bindings/bash/powerline.sh"
 export HISTSIZE=20000
 export HISTFILESIZE=50000
 export HISTCONTROL="ignoreboth:ignoredups:erasedups"
-export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd*";
+export HISTIGNORE="&:ls:[bf]g:exit:reset:clear";
 shopt -s histappend
 shopt -s histreedit;
 shopt -s checkwinsize

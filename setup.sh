@@ -13,6 +13,7 @@ ln -frs $RC_DIR/bashrc ${HOME}/.bashrc
 ln -frs $RC_DIR/zshrc ${HOME}/.zshrc
 ln -frs $RC_DIR/tmux.conf ${HOME}/.tmux.conf
 ln -frs $RC_DIR/vimrc ${HOME}/.vimrc
+ln -frs $RC_DIR/minimal.bashrc ${HOME}/.sshrc
 
 # [ -d ${POWERLINE_DIR} ] || \
 #   git clone https://github.com/powerline/powerline.git ${POWERLINE_DIR} && \
