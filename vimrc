@@ -184,6 +184,118 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+set rnu
+set bs=2
+set laststatus=2
+set hidden
+set list
+set listchars=tab:>\ ,trail:.
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set mouse=
+set splitbelow
+set splitright
+set noswapfile
+set completeopt=menu,preview
+set complete-=t,i
+set colorcolumn=80
+set wildmenu
+set formatoptions+=j
+" set cursorline
+" set cursorcolumn
+set nojoinspaces
+set modeline
+
+set statusline=%f\ %m%r " filename, modified flag, and readonly flag
+set statusline+=%= " left/right separator
+set statusline+=[%{strlen(&ft)?&ft:'none'}] " filetype
+set statusline+=[%{&ff}] " file format (ie. line endings)
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}] " encoding
+set statusline+=\ \|\ " a separator
+set statusline+=line\ %l\ of\ %L " line number
+" for more about customizing the status bar, see
+" http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
+
+autocmd BufEnter * set list " make sure visual whitespace is always shown
+
+" jump to last position on previous close
+autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+autocmd FileType php set keywordprg=pman
+
+" Start in insert mode when using the command window. See :help q:
+autocmd CmdwinEnter [/?]  startinsert
+
+" general key mappings --------------------------------------------------------
+
+" Open vimrc / source it
+nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <Leader>sv :source $MYVIMRC<cr>
+
+" Change 'Y' to copy to end of line to be similar to D and C
+nnoremap Y y$
+
+" Ctrl-6 does not work on Mac
+nnoremap <Leader>6 :e#<CR>
+
+" Keys for more efficient saving
+nmap <F11> :w<CR>
+nmap <F12> :wa<CR>
+
+" line movement mappings from http://vim.wikia.com/wiki/Moving_lines_up_or_down
+" Use Alt-j or Alt-k to move lines up or down, respectively
+nnoremap <A-j> :m+<CR>==
+inoremap <A-j> <Esc>:m+<CR>==gi
+vnoremap <A-j> :m'>+<CR>gv=gv
+nnoremap <A-k> :m-2<CR>==
+inoremap <A-k> <Esc>:m-2<CR>==gi
+vnoremap <A-k> :m-2<CR>gv=gv
+
+" Map Ctrl+Backspace in insert mode to delete back a word
+inoremap <C-BS> <C-w>
+
+inoremap <A-e> ë
+
+" Proper Ctrl+C -> Esc map
+map <C-c> <Esc>
+
+" Remove trailing whitespace
+nmap <Leader>w :%s/\s\+$//<CR>
+
+" A bit tricky to explain: will put you insert mode on the next line (like
+" doing just 'o', but will also put an extra blank line below this new line.
+nnoremap <Leader>o o<esc>O
+
+" Search for the word under the cursor, but stay on the current instance of it
+nnoremap <Leader>n *N
+
+" Clear search highlighting
+nnoremap <Leader>, :noh
+
+" Execute the current line with bash
+nnoremap <Leader>x :.w !bash<CR>
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType clojure setlocal iskeyword+=>
+" autocmd FileType clojure setlocal iskeyword-=/
+autocmd FileType clojure setlocal iskeyword-=,
+" autocmd FileType clojure setlocal iskeyword-=.
+autocmd FileType clojure setlocal shiftwidth=2
+autocmd FileType clojure setlocal lispwords+=facts,fact
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+autocmd BufNewFile,BufEnter *.clj,*.c,*.html,*.js,*.coffee,*.json,*.rb,*.tf,*.tfvars,*.yml setlocal shiftwidth=2
+autocmd BufNewFile,BufEnter Makefile,*.php setlocal noexpandtab
+
+autocmd BufNewFile,BufRead *.pp,Vagrantfile set filetype=ruby
+autocmd BufNewFile,BufRead *.edn set filetype=clojure
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+autocmd BufNewFile,BufRead *.ino set filetype=c
+autocmd BufNewFile,BufRead *.json set filetype=json
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -503,6 +615,50 @@ func! CurrentFileDir(cmd)
     return a:cmd . " " . expand("%:p:h") . "/"
 endfunc
 
+map <F9> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+cmap w!! w !sudo tee > /dev/null %
+
+function! SyntasticLeinClasspath()
+    silent !clear
+    let g:syntastic_java_javac_classpath = system("lein classpath")
+endfunction
+
+
+" Tagbar ---------------------------------------------------------------------
+let g:tagbar_type_haskell = {
+    \ 'ctagsbin'  : 'hasktags',
+    \ 'ctagsargs' : '-x -c -o-',
+    \ 'kinds'     : [
+        \  'm:modules:0:1',
+        \  'd:data: 0:1',
+        \  'd_gadt: data gadt:0:1',
+        \  't:type names:0:1',
+        \  'nt:new types:0:1',
+        \  'c:classes:0:1',
+        \  'cons:constructors:1:1',
+        \  'c_gadt:constructor gadt:1:1',
+        \  'c_a:constructor accessors:1:1',
+        \  'ft:function types:1:1',
+        \  'fi:function implementations:0:1',
+        \  'o:others:0:1'
+    \ ],
+    \ 'sro'        : '.',
+    \ 'kind2scope' : {
+        \ 'm' : 'module',
+        \ 'c' : 'class',
+        \ 'd' : 'data',
+        \ 't' : 'type'
+    \ },
+    \ 'scope2kind' : {
+        \ 'module' : 'm',
+        \ 'class'  : 'c',
+        \ 'data'   : 'd',
+        \ 'type'   : 't'
+    \ }
+\ }
 
 """"""""""""""""""""""""""""""
 " => Python section
@@ -667,3 +823,79 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
 let g:powerline_pycmd = 'py3'
 let g:powerline_pyeval = 'py3eval'
+
+" -----------------------------------------------------------------------------
+" Plugin settings and mappings
+" -----------------------------------------------------------------------------
+
+" Tips for getting header/source switch came from
+" http://vim.wikia.com/wiki/Easily_switch_between_source_and_header_file
+" mappings for a.vim
+nnoremap <F4> :A<CR>
+
+" NERDTree settings and mappings
+let NERDTreeIgnore=['\.swp$', '\.orig$', '\.pyc$', '\.class$', '__pycache__',
+                \   '\.swo$']
+let NERDTreeShowHidden=1 " show hidden files
+let NERDTreeChDirMode=2 " change directory whenever NERDTree does
+let NERDTreeShowLineNumbers=1
+let NERDTreeShowBookmarks=1
+" mapping to open NERDTree
+nnoremap <F5> :NERDTreeToggle<CR>
+" find the current file in NerdTree
+map <leader>r :NERDTreeFind<CR>
+
+" supertab -------------------------------------------------------------------
+" kick off supertab with space
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+let g:SuperTabMappingForward = '<C-Space>'
+let g:SuperTabMappingBackward = '<S-C-Space>'
+
+" OmniCppComplete settings ---------------------------------------------------
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+let OmniCpp_MayCompleteScope = 1 " autocomplete after ::o
+
+" ctrlp ----------------------------------------------------------------------
+let g:ctrlp_cmd = 'CtrlPLastMode'
+let g:ctrlp_custom_ignore = {
+    \ 'dir': '\.git$\|\.hg$\|\.venv$\|build$\|\.compiled$\|\.awesomo$\|node_modules$\|bower.*$\|\.cljs_rhino_repl\|target\|\.pelican\.*',
+    \ 'file': '\.swp$\|\.pyc$\|resources.*compiled',
+    \ }
+let g:ctrlp_by_filename = 1 " default to filename search instead of full path
+let g:ctrlp_regexp = 1 " default to regexp search
+let g:ctrlp_working_path_mode = 0
+
+" taglist --------------------------------------------------------------------
+let Tlist_Use_Right_Window = 1 " place taglist window on the right
+let Tlist_Display_Prototype = 1 " show prototypes instead of tags
+" mapping to open taglist
+nmap <F7> :TlistToggle<CR>
+
+" UltiSnips ------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" VimClojure -----------------------------------------------------------------
+" notes on setup:
+"http://naleid.com/blog/2011/12/19/getting-a-clojure-repl-in-vim-with-vimclojure-nailgun-and-leiningen/
+let g:vimclojure#HighlightBuiltins = 1
+let g:vimclojure#ParenRainbow = 1
+let g:vimclojure#NailgunClient = expand("~/bin/ng")
+let g:vimclojure#WantNailgun = 0
+let g:vimclojure#SplitPos = "right"
+let g:vimclojure#SplitSize = 70
+
+" Syntastic ------------------------------------------------------------------
+let g:syntastic_javascript_checkers = ["jslint"]
+let g:syntastic_json_checkers = ["jsonlint"]
+let g:syntastic_php_checkers = ["php"] " don't use phpcs (which does style checking)
+let g:syntastic_python_python_exec = "/usr/bin/python3"
+
+" Fireplace ------------------------------------------------------------------
+nmap <LocalLeader>e :Eval<CR>
+
+" SLIME ----------------------------------------------------------------------
+let g:slime_target = "tmux"
+let g:slime_python_ipython = 1

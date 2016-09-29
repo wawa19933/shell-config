@@ -104,6 +104,23 @@ unsetopt ALWAYS_TO_END
 # also applies to file expansion of an initial `~' or `='.
 unsetopt NOMATCH
 
+function powerline_precmd() {
+	[ -f ~/.local/powerline-shell/powerline-shell.py ] && \
+      export PS1="$(~/.local/powerline-shell/powerline-shell.py $? --shell zsh 2> /dev/null)"
+}
+
+function install_powerline_precmd() {
+  for s in "${precmd_functions[@]}"; do
+    if [ "$s" = "powerline_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(powerline_precmd)
+}
+
+if [ "$TERM" != "linux" ]; then
+    install_powerline_precmd
+f
 
 # Powerlevel9k themes
 # by tacolizard
