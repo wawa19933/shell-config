@@ -22,8 +22,9 @@ ln -frs $RC_DIR/vimrc ${HOME}/.vimrc
   git clone https://github.com/milkbikis/powerline-shell ~/.local/powerline-shell &&\
     cd ~/.local/powerline-shell; ~/.local/powerline-shell/install.py; cd - || cd 
 
-wget -O- https://bit.ly/glances | /bin/bash || \
-  curl -L https://bit.ly/glances | bash
+# Iteresting system monitor (useful for servers)
+# wget -O- https://bit.ly/glances | /bin/bash || \
+#   curl -L https://bit.ly/glances | bash
 
 [ -d ~/.vim/autoload ] || makedir -p ~/.vim/autoload && \
   wget -O ~/.vim/autoload/plug.vim \
