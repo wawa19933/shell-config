@@ -24,7 +24,7 @@ mkdir -p ~/.local/bin; mv $RC_DIR/progress ~/.local/bin/
 [ -d ~/.local/powerline-shell ] ||\
   echo "Installing powerline-shell" &&\
   git clone https://github.com/milkbikis/powerline-shell ~/.local/powerline-shell &&\
-  { cd ~/.local/powerline-shell ~/.local/powerline-shell/install.py; cd - || cd }
+  eval { cd ~/.local/powerline-shell ; ~/.local/powerline-shell/install.py; cd - || cd ; }
 
 # Iteresting system monitor (useful for servers)
 # wget -O- https://bit.ly/glances | /bin/bash || \
