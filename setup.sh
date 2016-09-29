@@ -44,7 +44,6 @@ if [[ ! -d ~/.fzf ]]; then
   ln -rsf ~/.fzf/bin/fzf-tmux ~/.local/bin/ && ln -rsf ~/.fzf/bin/fzf ~/.local/bin/ 
 fi
 
-function join_by { local d=$1; shift; echo -n "$1"; shift; printf "%s" "${@/#/$d}"; }
 app_list=( most multitail pydf mtr htop vim dstat inxi )
-[ -x "`which apt 2>&1`" ] && sudo apt install join_by ' ' "${app_list[@]}" 
-[ -x "`which dnf 2>&1`" ] && sudo dnf install join_by ' ' "${app_list[@]}"
+[ -x "`which apt 2>&1`" ] && sudo apt install "${app_list[@]}" 
+[ -x "`which dnf 2>&1`" ] && sudo dnf install "${app_list[@]}"
